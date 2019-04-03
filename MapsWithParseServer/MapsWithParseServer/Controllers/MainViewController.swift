@@ -9,12 +9,23 @@
 import UIKit
 import GoogleMaps
 import CoreLocation
+import GooglePlaces
 
 class MainViewController: UIViewController {
 
-    @IBOutlet weak var mapView: GMSMapView!
+    @IBOutlet weak var txtSource: UITextField!
+    @IBOutlet weak var txtTarget: UITextField!
     
+    @IBOutlet weak var btnSave: UIButton!
+    @IBOutlet weak var btnRoute: UIButton!
+    
+    @IBOutlet weak var mapView: GMSMapView!
+    @IBOutlet weak var autoCompleteTableView: UITableView!
+    
+    var gmsDataSource = CustomGMSAutocompleteTableDataSource()
+
     let locationManager = CLLocationManager()
+    let route = Route()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,7 +35,32 @@ class MainViewController: UIViewController {
         super.loadView()
         configureLocationManager()
         configureMapView()
-        addMarker()
+        configureGMSDatasource()
+        configureSearchFields()
+        hideKeyboardWhenTapAround()
+    }
+    
+    @objc func hideKeyboard(){
+        self.view.endEditing(true)
+    }
+    
+    func hideKeyboardWhenTapAround() {
+        //view.addGestureRecognizer(UITapGestureRecognizer(target: view, action: #selector(hideKeyboard)))
+    }
+    
+    func configureSearchFields() {
+        self.txtSource.delegate = self
+        self.txtSource.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
+        
+        self.txtTarget.delegate = self
+        self.txtTarget.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
+    }
+    
+    func configureGMSDatasource() {
+        self.gmsDataSource.delegate = self
+        self.autoCompleteTableView.delegate = self.gmsDataSource
+        self.autoCompleteTableView.dataSource = self.gmsDataSource
+        
     }
     
     func configureLocationManager() {
@@ -35,15 +71,6 @@ class MainViewController: UIViewController {
     func configureMapView() {
         mapView.isMyLocationEnabled = true
         mapView.settings.myLocationButton = true
-        mapView.camera = GMSCameraPosition.camera(withLatitude: -33.86, longitude: 151.20, zoom: 6.0)
-    }
-    
-    func addMarker() {
-        let marker = GMSMarker()
-        marker.position = CLLocationCoordinate2D(latitude: -33.86, longitude: 151.20)
-        marker.title = "Sydney"
-        marker.snippet = "Australia"
-        marker.map = mapView
     }
 
 
@@ -61,9 +88,81 @@ extension MainViewController : CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let currentLocation = locations.first else {return}
-        mapView.camera = GMSCameraPosition.camera(withTarget: currentLocation.coordinate, zoom: 15  )
+        mapView.camera = GMSCameraPosition.camera(withTarget: currentLocation.coordinate, zoom: 15 )
         locationManager.stopUpdatingLocation()
     }
     
 }
 
+
+extension MainViewController: GMSAutocompleteTableDataSourceDelegate {
+    
+    func tableDataSource(_ tableDataSource: GMSAutocompleteTableDataSource, didAutocompleteWith place: GMSPlace) {
+        
+        self.autoCompleteTableView.isHidden = true
+        
+        if self.gmsDataSource.currentSearchTextField == self.txtSource {
+            self.txtSource.text = place.formattedAddress
+            self.route.source = place.coordinate
+            self.txtSource.resignFirstResponder()
+        } else if self.gmsDataSource.currentSearchTextField == self.txtTarget {
+            self.txtTarget.text = place.formattedAddress
+            self.route.target = place.coordinate
+            self.txtTarget.resignFirstResponder()
+        }
+        
+        self.gmsDataSource.currentSearchTextField = nil
+        
+    }
+    
+    func tableDataSource(_ tableDataSource: GMSAutocompleteTableDataSource, didFailAutocompleteWithError error: Error) {
+        print("Error: ", error.localizedDescription)
+    }
+    
+    
+    func didRequestAutocompletePredictions(for tableDataSource: GMSAutocompleteTableDataSource) {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        self.autoCompleteTableView.reloadData()
+    }
+    
+    func didUpdateAutocompletePredictions(for tableDataSource: GMSAutocompleteTableDataSource) {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+        self.autoCompleteTableView.reloadData()
+    }
+
+}
+
+
+extension MainViewController : UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.autoCompleteTableView.isHidden = true
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        self.autoCompleteTableView.reloadData()
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        self.autoCompleteTableView.isHidden = true
+        textField.resignFirstResponder()
+    }
+    
+    func doneButtonAction(_ field: UITextField) {
+        _ = textFieldShouldReturn(field)
+    }
+    
+    @objc func textFieldDidChange(_ textField: UITextField) {
+        if let text = textField.text {
+            if(text.count > 5) {
+                self.autoCompleteTableView.isHidden = false
+                self.gmsDataSource.sourceTextHasChanged(text)
+                self.gmsDataSource.currentSearchTextField = textField
+            }
+        }
+        
+    }
+    
+}

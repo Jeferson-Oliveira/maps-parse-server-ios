@@ -7,6 +7,7 @@ target 'MapsWithParseServer' do
 
   # Pods for MapsWithParseServer
   
+  pod 'Alamofire'
   pod 'GoogleMaps'
   pod 'GooglePlaces'
 

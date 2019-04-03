@@ -12,6 +12,9 @@
 		411D90D0225436F000758DF3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 411D90CE225436F000758DF3 /* Main.storyboard */; };
 		411D90D2225436F100758DF3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 411D90D1225436F100758DF3 /* Assets.xcassets */; };
 		411D90D5225436F100758DF3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 411D90D3225436F100758DF3 /* LaunchScreen.storyboard */; };
+		411D90FF2254646100758DF3 /* CustomGMSAutocompleteTableDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411D90FE2254646100758DF3 /* CustomGMSAutocompleteTableDataSource.swift */; };
+		411D91022254681700758DF3 /* GoogleMapsRest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411D91012254681700758DF3 /* GoogleMapsRest.swift */; };
+		411D91052254685200758DF3 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 411D91042254685100758DF3 /* Route.swift */; };
 		FDEDBDC4F7CAFD804CA5B027 /* Pods_MapsWithParseServer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13C6F45E89E94C7BFEF54638 /* Pods_MapsWithParseServer.framework */; };
 /* End PBXBuildFile section */
 
@@ -24,6 +27,9 @@
 		411D90D1225436F100758DF3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		411D90D4225436F100758DF3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		411D90D6225436F100758DF3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		411D90FE2254646100758DF3 /* CustomGMSAutocompleteTableDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomGMSAutocompleteTableDataSource.swift; sourceTree = "<group>"; };
+		411D91012254681700758DF3 /* GoogleMapsRest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleMapsRest.swift; sourceTree = "<group>"; };
+		411D91042254685100758DF3 /* Route.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		7C3539E97EA0B00B9E5E96F7 /* Pods-MapsWithParseServer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MapsWithParseServer.debug.xcconfig"; path = "Target Support Files/Pods-MapsWithParseServer/Pods-MapsWithParseServer.debug.xcconfig"; sourceTree = "<group>"; };
 		B60499083E6EEDC0F6F17BA2 /* Pods-MapsWithParseServer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MapsWithParseServer.release.xcconfig"; path = "Target Support Files/Pods-MapsWithParseServer/Pods-MapsWithParseServer.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -61,12 +67,15 @@
 		411D90C9225436F000758DF3 /* MapsWithParseServer */ = {
 			isa = PBXGroup;
 			children = (
+				411D91032254684500758DF3 /* Model */,
+				411D91002254680000758DF3 /* Rest */,
+				411D90D6225436F100758DF3 /* Info.plist */,
+				411D90FD2254644800758DF3 /* Custom */,
+				411D90FC2254641A00758DF3 /* Resources */,
 				411D90DD2254371600758DF3 /* Storyboards */,
 				411D90DC2254370400758DF3 /* Controllers */,
 				411D90CA225436F000758DF3 /* AppDelegate.swift */,
-				411D90D1225436F100758DF3 /* Assets.xcassets */,
 				411D90D3225436F100758DF3 /* LaunchScreen.storyboard */,
-				411D90D6225436F100758DF3 /* Info.plist */,
 			);
 			path = MapsWithParseServer;
 			sourceTree = "<group>";
@@ -85,6 +94,38 @@
 				411D90CE225436F000758DF3 /* Main.storyboard */,
 			);
 			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		411D90FC2254641A00758DF3 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				411D90D1225436F100758DF3 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		411D90FD2254644800758DF3 /* Custom */ = {
+			isa = PBXGroup;
+			children = (
+				411D90FE2254646100758DF3 /* CustomGMSAutocompleteTableDataSource.swift */,
+			);
+			path = Custom;
+			sourceTree = "<group>";
+		};
+		411D91002254680000758DF3 /* Rest */ = {
+			isa = PBXGroup;
+			children = (
+				411D91012254681700758DF3 /* GoogleMapsRest.swift */,
+			);
+			path = Rest;
+			sourceTree = "<group>";
+		};
+		411D91032254684500758DF3 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				411D91042254685100758DF3 /* Route.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		72DF5E9A272A536A5D24DEA8 /* Pods */ = {
@@ -116,6 +157,7 @@
 				411D90C4225436F000758DF3 /* Frameworks */,
 				411D90C5225436F000758DF3 /* Resources */,
 				DD8345DC11001EC062AD3A60 /* [CP] Copy Pods Resources */,
+				9E3C534F978719EF8C9173CB /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -173,6 +215,30 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		9E3C534F978719EF8C9173CB /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MapsWithParseServer/Pods-MapsWithParseServer-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MapsWithParseServer/Pods-MapsWithParseServer-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		D835567F50989361F19D78DD /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -227,7 +293,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				411D90CD225436F000758DF3 /* MainViewController.swift in Sources */,
+				411D90FF2254646100758DF3 /* CustomGMSAutocompleteTableDataSource.swift in Sources */,
 				411D90CB225436F000758DF3 /* AppDelegate.swift in Sources */,
+				411D91052254685200758DF3 /* Route.swift in Sources */,
+				411D91022254681700758DF3 /* GoogleMapsRest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

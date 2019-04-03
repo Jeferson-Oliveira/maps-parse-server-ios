@@ -12,8 +12,9 @@ import GooglePlaces
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-    let mapsKey = "AIzaSyAXuhpRa7U5vK2bWleBjt5odwHej3APif8"
+    
+    #error ("Add mapskey.")
+    let mapsKey = ""
     var window: UIWindow?
 
 
