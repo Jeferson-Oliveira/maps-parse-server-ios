@@ -9,21 +9,32 @@
 import UIKit
 import GoogleMaps
 import GooglePlaces
+import Parse
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     #error ("Add mapskey.")
     static let mapsKey = ""
+    static let parserAppID = "parser-server-demo-id"
+    static let parseClientKey = "parser-server-demo-key"
+    static let parserServerUrlString = "http://localhost:1337/parse"
     
     var window: UIWindow?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        // Google Maps Configuration
-        
+        // Google Maps and Places Configuration
         GMSServices.provideAPIKey(AppDelegate.mapsKey)
         GMSPlacesClient.provideAPIKey(AppDelegate.mapsKey)
+        
+        //Pase Server Configuration
+        let parseConfig = ParseClientConfiguration {
+            $0.applicationId = AppDelegate.parserAppID
+            //$0.clientKey = AppDelegate.parseClientKey
+            $0.server = AppDelegate.parserServerUrlString
+        }
+        Parse.initialize(with: parseConfig)
         
         return true
     }

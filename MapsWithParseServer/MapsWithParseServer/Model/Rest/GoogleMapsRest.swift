@@ -12,11 +12,11 @@ import SwiftyJSON
 
 class GoogleMapsRest: NSObject {
 
-    static func traceRouter(route: Route, onSuccess : @escaping ([GMSPolyline]) -> Void,  onError : @escaping (String) -> Void) {
+     func traceRouter(route: Route, onSuccess : @escaping ([GMSPolyline]) -> Void,  onError : @escaping (String) -> Void) {
         
-        let origin = "\((route.source?.latitude ?? 0.0).description),\((route.source?.longitude ?? 0.0).description)"
+        let origin = "\((route.source?.coordinate?.latitude ?? 0.0).description),\((route.source?.coordinate?.longitude ?? 0.0).description)"
         
-        let destination = "\((route.target?.latitude ?? 0.0).description),\((route.target?.longitude ?? 0.0).description)"
+        let destination = "\((route.target?.coordinate?.latitude ?? 0.0).description),\((route.target?.coordinate?.longitude ?? 0.0).description)"
         
         let url = "https://maps.googleapis.com/maps/api/directions/json?origin=\(origin)&destination=\(destination)&mode=driving&key=\(AppDelegate.mapsKey)"
         
@@ -48,7 +48,6 @@ class GoogleMapsRest: NSObject {
             } else {
                 onError(response.error?.localizedDescription ?? "Não foi possível obter sua rota")
             }
-
 
         }
 

@@ -11,6 +11,6 @@ target 'MapsWithParseServer' do
   pod 'GoogleMaps'
   pod 'GooglePlaces'
   pod 'SwiftyJSON'
+  pod 'Parse'
   
-
 end
