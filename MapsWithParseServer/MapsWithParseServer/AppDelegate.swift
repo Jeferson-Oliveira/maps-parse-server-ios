@@ -14,16 +14,16 @@ import GooglePlaces
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     #error ("Add mapskey.")
-    let mapsKey = ""
+    static let mapsKey = ""
+    
     var window: UIWindow?
-
-
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         // Google Maps Configuration
         
-        GMSServices.provideAPIKey(mapsKey)
-        GMSPlacesClient.provideAPIKey(mapsKey)
+        GMSServices.provideAPIKey(AppDelegate.mapsKey)
+        GMSPlacesClient.provideAPIKey(AppDelegate.mapsKey)
         
         return true
     }

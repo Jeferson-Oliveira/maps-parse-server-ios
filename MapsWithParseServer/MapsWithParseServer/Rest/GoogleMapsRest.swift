@@ -11,31 +11,40 @@ import GoogleMaps
 import SwiftyJSON
 
 class GoogleMapsRest: NSObject {
-    
-    
+
     static func traceRouter(route: Route, onSuccess : @escaping ([GMSPolyline]) -> Void,  onError : @escaping (String) -> Void) {
         
         let origin = "\((route.source?.latitude ?? 0.0).description),\((route.source?.longitude ?? 0.0).description)"
         
         let destination = "\((route.target?.latitude ?? 0.0).description),\((route.target?.longitude ?? 0.0).description)"
         
-        let url = "https://maps.googleapis.com/maps/api/directions/json?origin=\(origin)&destination=\(destination)&mode=driving"
+        let url = "https://maps.googleapis.com/maps/api/directions/json?origin=\(origin)&destination=\(destination)&mode=driving&key=\(AppDelegate.mapsKey)"
         
         Alamofire.request(url).responseJSON { response in
             if response.result.isSuccess {
-//                let json = JSON(data: response.data!)
-//                let routes = json["routes"].arrayValue
-//
-//                for route in routes
-//                {
-//                    let routeOverviewPolyline = route["overview_polyline"].dictionary
-//                    let points = routeOverviewPolyline?["points"]?.stringValue
-//                    let path = GMSPath.init(fromEncodedPath: points!)
-//                    let polyline = GMSPolyline.init(path: path)
-//                    polyline.strokeColor = UIColor.blue
-//                    polyline.strokeWidth = 2
-//                    polyline.map = self.googleView
-//                }
+                var responseList = [GMSPolyline]()
+                
+                do {
+                    let json = try JSON(data: response.data!)
+                    let routes = json["routes"].arrayValue
+                    
+                    for route in routes
+                    {
+                        guard let routeOverviewPolyline = route["overview_polyline"].dictionary,
+                            let points = routeOverviewPolyline["points"]?.stringValue else {
+                                onError("Não foi possível obter o retorno do servidor")
+                                return
+                        }
+                        
+                        let path = GMSPath.init(fromEncodedPath: points)
+                        responseList.append(GMSPolyline.init(path: path))
+                        
+                    }
+                    onSuccess(responseList)
+                } catch  {
+                    onError("Não foi possível obter o retorno do servidor")
+                }
+                
             } else {
                 onError(response.error?.localizedDescription ?? "Não foi possível obter sua rota")
             }

@@ -10,5 +10,7 @@ target 'MapsWithParseServer' do
   pod 'Alamofire'
   pod 'GoogleMaps'
   pod 'GooglePlaces'
+  pod 'SwiftyJSON'
+  
 
 end

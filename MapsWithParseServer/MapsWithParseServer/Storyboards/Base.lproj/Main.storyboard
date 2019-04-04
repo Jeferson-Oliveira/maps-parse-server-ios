@@ -65,13 +65,13 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="C4W-gA-RQi" userLabel="InputsView">
                                                 <rect key="frame" x="8" y="8" width="343" height="68"/>
                                                 <subviews>
-                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Origem" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="s2o-hD-n19">
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Origem" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="s2o-hD-n19">
                                                         <rect key="frame" x="0.0" y="0.0" width="343" height="30"/>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits" returnKeyType="continue" enablesReturnKeyAutomatically="YES"/>
                                                     </textField>
-                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Destino" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zSh-mq-Mj7">
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Destino" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="zSh-mq-Mj7">
                                                         <rect key="frame" x="0.0" y="38" width="343" height="30"/>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -81,15 +81,11 @@
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" alignment="top" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="gne-Du-Zcy" userLabel="ButtonsView">
-                                                <rect key="frame" x="260" y="84" width="91" height="30"/>
+                                                <rect key="frame" x="308" y="84" width="43" height="30"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nqu-F3-aPX">
                                                         <rect key="frame" x="0.0" y="0.0" width="43" height="30"/>
                                                         <state key="normal" title="Salvar"/>
-                                                    </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gbv-W1-xCS">
-                                                        <rect key="frame" x="59" y="0.0" width="32" height="30"/>
-                                                        <state key="normal" title="Rota"/>
                                                     </button>
                                                 </subviews>
                                             </stackView>
@@ -103,6 +99,12 @@
                                             <constraint firstItem="C4W-gA-RQi" firstAttribute="leading" secondItem="8lQ-5g-uXe" secondAttribute="leading" constant="8" id="xqn-vK-fw4"/>
                                             <constraint firstItem="gne-Du-Zcy" firstAttribute="top" secondItem="C4W-gA-RQi" secondAttribute="bottom" constant="8" id="zoB-2F-tyR"/>
                                         </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="16"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                     </view>
                                     <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="VXQ-c3-LZ0">
                                         <rect key="frame" x="8" y="130" width="359" height="200"/>
@@ -140,7 +142,6 @@
                     <navigationItem key="navigationItem" title="Home" id="Qdt-rC-tzq"/>
                     <connections>
                         <outlet property="autoCompleteTableView" destination="VXQ-c3-LZ0" id="7MB-c3-wGl"/>
-                        <outlet property="btnRoute" destination="Gbv-W1-xCS" id="gxv-Mg-b7k"/>
                         <outlet property="btnSave" destination="nqu-F3-aPX" id="lMp-ML-6qB"/>
                         <outlet property="mapView" destination="GPo-aU-2Lt" id="gEs-O0-Z3F"/>
                         <outlet property="txtSource" destination="s2o-hD-n19" id="6ZX-QL-mfZ"/>
