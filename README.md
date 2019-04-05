@@ -2,7 +2,7 @@
 
 # Requisitos
 
-Para execultar essa aplicação é necessário:
+Para executar essa aplicação é necessário:
 
 * XCode 10
 * Cocoapods
@@ -11,7 +11,7 @@ Para execultar essa aplicação é necessário:
         Maps SDK for iOS
         Directions API
 
-Referências
+# Referências
 
 #Google Maps API IOS
 
