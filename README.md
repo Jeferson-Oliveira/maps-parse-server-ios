@@ -6,10 +6,10 @@ Para executar essa aplicação é necessário:
 
 * XCode 10
 * Cocoapods
-* Chave Google Cloud sem restrições de apps e com as seguintes APIS habilitadas
-        Places API
-        Maps SDK for iOS
-        Directions API
+* Chave Google Cloud sem restrições de apps e com as seguintes APIs habilitadas <br />
+        Places API <br />
+        Maps SDK for iOS <br />
+        Directions API <br />
 
 # Referências
 
