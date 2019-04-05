@@ -1,5 +1,15 @@
 # Repositório para testes MapsApi + Places API + Parse Server
 
+# Requisitos
+
+Para execultar essa aplicação é necessário:
+
+* XCode 10
+* Cocoapods
+* Chave Google Cloud sem restrições de apps e com as seguintes APIS habilitadas
+        Places API
+        Maps SDK for iOS
+        Directions API
 
 Referências
 

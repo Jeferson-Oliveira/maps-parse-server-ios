@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  HomeViewController.swift
 //  MapsWithParseServer
 //
 //  Created by Jeferson Oliveira Cequeira de Jesus on 02/04/19.
@@ -11,12 +11,12 @@ import GoogleMaps
 import CoreLocation
 import GooglePlaces
 
-class MainViewController: BaseViewController {
+class HomeViewController: BaseViewController {
 
     @IBOutlet weak var txtSource: UITextField!
     @IBOutlet weak var txtTarget: UITextField!
     
-    @IBOutlet weak var btnSave: UIButton!
+    @IBOutlet weak var btnSave: UIBarButtonItem!
     
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var autoCompleteTableView: UITableView!
@@ -28,6 +28,7 @@ class MainViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.btnSave.isEnabled = false
     }
     
     override func loadView() {
@@ -39,10 +40,9 @@ class MainViewController: BaseViewController {
         //hideKeyboardWhenTapAround()
     }
     
-    @IBAction func saveRoute(_ sender: UIButton) {
-        sender.isEnabled = false
-        
+    @IBAction func saveRoute(_ sender: UIBarButtonItem) {
         guard let _ = self.route.source, let _ = self.route.target else {return}
+        sender.isEnabled = false
         self.showActivityIndicator()
         RouteParseRest().save(route: self.route, onSucess: {
             sender.isEnabled = true
@@ -76,10 +76,17 @@ class MainViewController: BaseViewController {
         mapView.isMyLocationEnabled = true
         mapView.settings.myLocationButton = true
     }
+    
+    func addMarker(position: CLLocationCoordinate2D) {
+        let marker = GMSMarker(position: position)
+        marker.appearAnimation = .pop
+        marker.isFlat = true
+        marker.map = self.mapView
+    }
 
 }
 
-extension MainViewController : CLLocationManagerDelegate {
+extension HomeViewController : CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         if status == .authorizedWhenInUse {
@@ -100,9 +107,7 @@ extension MainViewController : CLLocationManagerDelegate {
     }
     
     func traceRoute() {
-        guard let _ = route.source, let _ = route.target else {return}
-        self.mapView.clear()
-        
+        guard let sourceCordinate = route.source?.coordinate, let targetCordinate = route.target?.coordinate else {return}
         self.showActivityIndicator()
         googleMapsRest.traceRouter(route: self.route, onSuccess: { response in
             self.hideActivityIndicator()
@@ -111,6 +116,8 @@ extension MainViewController : CLLocationManagerDelegate {
                 item.strokeWidth = 2
                 item.map = self.mapView
             })
+            self.addMarker(position: sourceCordinate)
+            self.addMarker(position: targetCordinate)
             self.btnSave.isEnabled = true
         }, onError: { erroMessage in
             self.showAlert(message: erroMessage, completion: self.hideActivityIndicator)
@@ -119,7 +126,7 @@ extension MainViewController : CLLocationManagerDelegate {
 }
 
 
-extension MainViewController: GMSAutocompleteTableDataSourceDelegate {
+extension HomeViewController: GMSAutocompleteTableDataSourceDelegate {
     
     func tableDataSource(_ tableDataSource: GMSAutocompleteTableDataSource, didAutocompleteWith place: GMSPlace) {
         
@@ -129,13 +136,15 @@ extension MainViewController: GMSAutocompleteTableDataSourceDelegate {
             self.txtSource.text = place.name
             self.route.source = Place(gmsPlace: place)
             self.changeCamera(toLocation: place.coordinate)
+            self.addMarker(position: place.coordinate)
             self.txtSource.resignFirstResponder()
         } else if self.gmsDataSource.currentSearchTextField == self.txtTarget {
             self.txtTarget.text = place.name
             self.route.target = Place(gmsPlace: place)
             self.txtTarget.resignFirstResponder()
         }
-    
+        
+        
         self.gmsDataSource.currentSearchTextField = nil
         self.traceRoute()
     }
@@ -156,7 +165,7 @@ extension MainViewController: GMSAutocompleteTableDataSourceDelegate {
 
 }
 
-extension MainViewController : UITextFieldDelegate {
+extension HomeViewController : UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.autoCompleteTableView.isHidden = true
@@ -179,7 +188,7 @@ extension MainViewController : UITextFieldDelegate {
     
     @objc func textFieldDidChange(_ textField: UITextField) {
         if let text = textField.text, !text.isEmpty {
-            if(text.count > 5) {
+            if(text.count > 3) {
                 self.autoCompleteTableView.isHidden = false
                 self.gmsDataSource.sourceTextHasChanged(text)
                 self.gmsDataSource.currentSearchTextField = textField

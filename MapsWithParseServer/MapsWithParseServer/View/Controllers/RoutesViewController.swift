@@ -1,5 +1,5 @@
 //
-//  RoutesTableViewController.swift
+//  HomeViewController.swift
 //  MapsWithParseServer
 //
 //  Created by Jeferson Oliveira Cequeira de Jesus on 03/04/19.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RoutesTableViewController: BaseViewController {
+class RoutesViewController: BaseViewController {
 
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
     
@@ -61,7 +61,7 @@ class RoutesTableViewController: BaseViewController {
     
 }
 
-extension RoutesTableViewController: UITableViewDataSource {
+extension RoutesViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.routes.count
     }
@@ -74,7 +74,7 @@ extension RoutesTableViewController: UITableViewDataSource {
     }
 }
 
-extension RoutesTableViewController: RouteTableViewCellDelegate {
+extension RoutesViewController: RouteTableViewCellDelegate {
     func delete(route: Route) {
         self.loadingIndicator.startAnimating()
         routeRest.delete(route: route, onSucess: {
