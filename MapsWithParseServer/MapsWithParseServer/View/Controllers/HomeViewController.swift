@@ -84,24 +84,6 @@ class HomeViewController: BaseViewController {
         marker.map = self.mapView
     }
 
-}
-
-extension HomeViewController : CLLocationManagerDelegate {
-    
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        if status == .authorizedWhenInUse {
-            locationManager.startUpdatingLocation()
-            mapView.isMyLocationEnabled = true
-            mapView.settings.myLocationButton = true
-        }
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let currentLocation = locations.first else {return}
-        changeCamera(toLocation: currentLocation.coordinate)
-        locationManager.stopUpdatingLocation()
-    }
-    
     func changeCamera(toLocation: CLLocationCoordinate2D) {
         self.mapView.camera = GMSCameraPosition.camera(withTarget: toLocation, zoom: 15 )
     }
@@ -125,6 +107,24 @@ extension HomeViewController : CLLocationManagerDelegate {
     }
 }
 
+extension HomeViewController : CLLocationManagerDelegate {
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if status == .authorizedWhenInUse {
+            locationManager.startUpdatingLocation()
+            mapView.isMyLocationEnabled = true
+            mapView.settings.myLocationButton = true
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let currentLocation = locations.first else {return}
+        changeCamera(toLocation: currentLocation.coordinate)
+        locationManager.stopUpdatingLocation()
+    }
+
+}
+
 
 extension HomeViewController: GMSAutocompleteTableDataSourceDelegate {
     
@@ -143,7 +143,6 @@ extension HomeViewController: GMSAutocompleteTableDataSourceDelegate {
             self.route.target = Place(gmsPlace: place)
             self.txtTarget.resignFirstResponder()
         }
-        
         
         self.gmsDataSource.currentSearchTextField = nil
         self.traceRoute()
